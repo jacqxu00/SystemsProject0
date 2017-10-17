@@ -29,9 +29,12 @@ struct song_node * insert_front(struct song_node * list, char * person, char * s
 	strcpy(ans->name, song);
 	//ans->artist = person;
 	//ans->name = song;
+
+	ans->next = list;
 	return ans;
 }
 
+//kind of an ugly function
 //takes in pointers to two different song nodes, compares the artist strings then song title strings;
 // returns: -1 if a comes before b, 0 if they are the same, 1 if b comes before a
 int compare_nodes(struct song_node * a, struct song_node * b) {
@@ -53,17 +56,29 @@ int compare_nodes(struct song_node * a, struct song_node * b) {
 				if (strcmp(song_A, song_B) > 0){
 					return 1; } //this means song a comes after song b
 				}
-			}
+		}
 
-			return 0; //if all else fails
+		return 0; //if all else fails
 }
 
 
-
+//function not tested, just an idea!
 // takes a pointer to the existing list and the data to be added, creates a new node and alphabetizes it in the list;
 // returns: a pointer to the beginning of the list.
 struct song_node * insert_song(struct song_node * list, char * person, char * song) {
-	return NULL;
+	struct song_node *copy = list; //so we can return beginning of the list later
+
+	//while the current song's artist and name is "less" than the song we want to insert
+	while (list && strcmp(list->artist, person) > 0 && strcmp(list->name, song) > 0){
+		list = list->next; }
+
+	struct song_node *new_song = (struct song_node *)malloc(sizeof(song_node));
+	strcpy(new_song->artist, person);
+	strcpy(new_song->name, song);
+	new_song->next = list;
+
+	return copy; //this is beginning of list
+
 }
 
 // takes a pointer to the existing list, goes through the entire list freeing each node;
@@ -118,6 +133,6 @@ int main(){
 	strcpy(song2->artist, "Tupac");
 	strcpy(song2->name, "Changes");
 
-	printf("compare song1 to song2: %d \n", compare_nodes(song1, song2) );
+	printf("compare song1 to song2: %d \n", compare_nodes(song1, song2) ); //should return -1, "Biggie" before "Tupac"
 
 }
