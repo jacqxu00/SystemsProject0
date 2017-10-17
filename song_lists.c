@@ -5,20 +5,21 @@ Project 0 My Tunez
 10/20/2017
 */
 
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "song_lists.h"
 
+srand(time(NULL));
 
 // takes: a pointer to a node struct, prints out all of the data in the list
 void print_list(struct song_node * list) {
 	while (list) {
-		printf(" song: %s \n ", list->name);
-		printf(" artist: %s \n", list->artist);
+		printf("(%s: %s), ", list->artist, list->name);
 		list = list->next;
 	}
-	printf("NULL\n");
+	printf("(NULL)\n");
 }
 
 // takes a pointer to the existing list and the data to be added, creates a new node and puts it at the beginning of the list;
@@ -41,24 +42,26 @@ int compare_nodes(struct song_node * a, struct song_node * b) {
 	char * artist_A = a->artist;
 	char * artist_B = b->artist;
 
-	if (strcmp(artist_A, artist_B) < 0){
-		return -1; } //this means artist a is before artist b
+	if (strcmp(artist_A, artist_B) < 0){ //this means artist a is before artist b
+		return -1;
+	} 
 
-	else{
-			if (strcmp(artist_A, artist_B) > 0){
-				return 1; } //this means artist a comes after artist b
+	else if (strcmp(artist_A, artist_B) > 0){ //this means artist a comes after artist b
+		return 1;
+	} 
 
-			else{
-				char * song_A = a->name;
-				char * song_B = b->name;
-				if (strcmp(song_A, song_B) < 0){
-					return -1; } //this means song a comes before song b
-				if (strcmp(song_A, song_B) > 0){
-					return 1; } //this means song a comes after song b
-				}
+	else { //must compare song titles because artist name same
+		char * song_A = a->name;
+		char * song_B = b->name;
+		if (strcmp(song_A, song_B) < 0){ //this means song a comes before song b
+			return -1;
 		}
-
-		return 0; //if all else fails
+		if (strcmp(song_A, song_B) > 0){ //this means song a comes after song b
+			return 1;
+		}
+	}
+	
+	return 0; //if all else fails
 }
 
 
@@ -109,17 +112,28 @@ struct song_node * find_artist(struct song_node * list, char * person) {
 // takes a pointer to the existing list, goes through the entire list;
 // returns: how many nodes in the entire linked list
 int length_of(struct song_node * list) {
-	return 0;
+	int ans = 0;
+	while (list) {
+		list = list->next;
+		ans++;
+	}
+	return ans;
 }
 
 // takes a pointer to the existing list;
 // returns: how a pointer to a random node in the list
-struct song_node * find_random() {
-	return NULL;
+struct song_node * find_random(struct song_node * list) {
+	int l = length_of(list);
+	int r; 
+	for (r = rand() % l; r > 0; r--) {
+		list = list->next;
+	}
+	return list;
 }
 
 // takes a pointer to the existing list and a node to be removed, goes through entire list until node matches and removes it;
 void remove_song(struct song_node * list, struct song_node * one) {
+	
 }
 
 int main(){
