@@ -18,7 +18,7 @@ void print_list(struct song_node * list) {
 		printf(" artist: %s \n", list->artist);
 		list = list->next;
 	}
-	printf("NULL\n");
+	//printf("NULL\n"); //only for testing purposes
 }
 
 //UPDATED PARAMETERS
@@ -139,10 +139,19 @@ int length_of(struct song_node * list) {
 // returns: how a pointer to a random node in the list
 struct song_node * find_random(struct song_node * list) {
 	int l = length_of(list);
-	int r;
-	for (r = rand() % l; r > 0; r--) {
+	printf("\nlength of list: %d \n", l);
+
+	srand(time(NULL));
+	int r = ( rand() % l) + 1;
+	printf("\nrandom index: %d \n", r);
+
+	int i = 0;
+
+	//this needs work
+	while(i < r){
 		list = list->next;
-	}
+		i++; }
+
 	return list;
 }
 
@@ -176,6 +185,8 @@ struct song_node * remove_song(struct song_node * list, struct song_node * one) 
 	return copy;
 }
 
+
+
 int main(){
 	//simple testing
 	struct song_node *songBiggie = (struct song_node *)malloc(sizeof(struct song_node));
@@ -202,19 +213,19 @@ int main(){
 	initialize_song(song6, "F", "f song");
 
 	//testing inserting in beginning
-	printf("testing insert in front, should print a -> b -> c -> d \n");
+	printf("\ntesting insert a in front of b->c->d, should print a -> b -> c -> d \n");
 	song2->next = song3;
 	song3->next = song4; //so far, it's b -> c -> d
 	insert_song(song2, song1);
 	print_list(song1);
 
 	//testing inserting in end
-	printf("testing insert in end, should print a -> b -> c -> d -> f \n");
+	printf("\ntesting insert f in end of a->b->c->d, should print a -> b -> c -> d -> f \n");
 	insert_song(song1, song6);
 	print_list(song1);
 
 	//testing inserting in middle
-	printf("testing insert in middle, should print a -> b -> c -> d -> e -> f \n");
+	printf("\ntesting insert e in middle of a-> b->c->d->f, should print a -> b -> c -> d -> e -> f \n");
 	insert_song(song1, song5);
 	print_list(song1);
 
@@ -226,5 +237,11 @@ int main(){
 	
 	//testing remove song from middle
 	
+	//free_list(song1); //FIX this doesn't work
+
+	//testing find random
+	find_random(song1);
+	printf("\n");
+	print_list(song1);
 
 }
