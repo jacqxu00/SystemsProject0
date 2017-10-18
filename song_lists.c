@@ -63,7 +63,8 @@ int compare_nodes(struct song_node * a, struct song_node * b) {
 		return 0; //if all else fails
 }
 
-//new function
+// inputs information into a song_node
+// returns: a pointer to the song_node
 struct song_node * initialize_song(struct song_node * node, char * person, char * song){
 	strcpy(node->artist, person);
 	strcpy(node->name, song);
@@ -91,10 +92,10 @@ struct song_node * insert_song(struct song_node * list, struct song_node * inser
 
 		list = list->next; }
 
-		//case 3: if insert should be the last song in list
-		//if while loop lasted till end, we know insert end must be the case
-		insert_end(list,insert);
-		return copy;
+	//case 3: if insert should be the last song in list
+	//if while loop lasted till end, we know insert end must be the case
+	insert_end(list,insert);
+	return copy;
 }
 
 // takes a pointer to the existing list, goes through the entire list freeing each node;
@@ -146,7 +147,33 @@ struct song_node * find_random(struct song_node * list) {
 }
 
 // takes a pointer to the existing list and a node to be removed, goes through entire list until node matches and removes it;
-void remove_song(struct song_node * list, struct song_node * one) {
+// returns: pointer to the beginning of the edited list
+struct song_node * remove_song(struct song_node * list, struct song_node * one) {
+	struct song_node *copy = list; //so we can return beginning of the list later
+	
+	//case 1: if remove first node of list
+	if (compare_nodes(insert,one) == 0){
+		copy = list->next;
+	 	list = NULL; //FIX to free
+	}
+	
+	else {
+		while (list && list->next != NULL){
+			//case 2: remove from the middle
+			if (compare_nodes(one,list->next) == 0){
+				struct song_node *temp = list->next;
+				list->next = temp->next;
+				temp->next = NULL; //FIX to free 
+			}
+	
+			list = list->next;
+		}
+	}
+
+	//case 3: remove from the end
+	//if while loop lasted till end, we know list is the last node
+	list = NULL; //FIX to free
+	return copy;
 }
 
 int main(){
@@ -177,7 +204,7 @@ int main(){
 	//testing inserting in beginning
 	printf("testing insert in front, should print a -> b -> c -> d \n");
 	song2->next = song3;
-	song3->next = song4; //so far, it's b -> c ->d
+	song3->next = song4; //so far, it's b -> c -> d
 	insert_song(song2, song1);
 	print_list(song1);
 
@@ -191,5 +218,13 @@ int main(){
 	insert_song(song1, song5);
 	print_list(song1);
 
+	//testing remove song from beginning
+	printf("testing insert in middle, should print b -> c -> d -> e -> f \n");
+	remove_song(song1, song1);
+	
+	//testing remove song from end
+	
+	//testing remove song from middle
+	
 
 }
