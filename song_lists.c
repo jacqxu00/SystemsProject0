@@ -21,28 +21,20 @@ void print_list(struct song_node * list) {
 	printf("NULL\n");
 }
 
+//UPDATED PARAMETERS
 // takes a pointer to the existing list and the data to be added, creates a new node and puts it at the beginning of the list;
 // returns: a pointer to the beginning of the list.
-struct song_node * insert_front(struct song_node * list, char * person, char * song) {
-	struct song_node *ans = (struct song_node *) malloc(sizeof(struct song_node));
-	strcpy(ans->artist, person);
-	strcpy(ans->name, song);
-
-	ans->next = list;
-	return ans;
+struct song_node * insert_front(struct song_node * list, struct song_node * insert) {
+	insert->next = list;
+	return insert;
 }
 
-struct song_node * insert_end(struct song_node * list, char * person, char *song){
-	struct song_node *ans = (struct song_node *)malloc(sizeof(struct song_node));
-	strcpy(ans->artist, person);
-	strcpy(ans->name, song);
-
-	while(list){
+struct song_node * insert_end(struct song_node * list, struct song_node * insert){
+	while(list && list->next != NULL){
 		list = list->next; }
 
-	list->next = ans;
-	return ans;
-
+	list->next = insert;
+	return insert;
 }
 
 //takes in pointers to two different song nodes, compares the artist strings then song title strings;
@@ -71,35 +63,38 @@ int compare_nodes(struct song_node * a, struct song_node * b) {
 		return 0; //if all else fails
 }
 
+//new function
+struct song_node * initialize_song(struct song_node * node, char * person, char * song){
+	strcpy(node->artist, person);
+	strcpy(node->name, song);
+	return node;
+}
+
+//UPDATED PARAMETERS
 // takes a pointer to the existing list and the data to be added, creates a new node and alphabetizes it in the list;
 // returns: a pointer to the beginning of the list.
-struct song_node * insert_song(struct song_node * list, char * person, char * song) {
+struct song_node * insert_song(struct song_node * list, struct song_node * insert) {
 	struct song_node *copy = list; //so we can return beginning of the list later
 
-	struct song_node * insert = (struct song_node *)malloc(sizeof(struct song_node));
-	strcpy(insert->artist, person);
-	strcpy(insert->name, song);
-
-	//while the current song's artist and name is  not "less" than the song we want to insert
-	while (list && compare_nodes(list->next, insert) != 0 && compare_nodes(list, insert) != 0){
+	//while the current song's artist and name is not "less" than the song we want to insert
+	while (list && list->next != NULL && compare_nodes(list->next, insert) != 0 && compare_nodes(list, insert) != 0){
 		//case 1: if insert should be first song in list
 		if (compare_nodes(insert,list) < 0){
-			insert_front(list, person, song); }
+			insert_front(list, insert);
+		 	return copy; }
 
-		//case 2: if insert should be the last song in list
-		else if(list->next == NULL && compare_nodes(insert,list) > 0){
-			list->next = insert; }
-
-		//case 3: add in middle
+		//case 2: add in middle
 		else if (compare_nodes(insert,list) > 0 && compare_nodes(insert, list->next) < 0){
 			insert->next = list->next;
-			list->next = insert; }
+			list->next = insert;
+			return copy; }
 
-			list = list->next;
-		}
+		list = list->next; }
 
-	return copy; //this is beginning of list
-
+		//case 3: if insert should be the last song in list
+		//if while loop lasted till end, we know insert end must be the case
+		insert_end(list,insert);
+		return copy;
 }
 
 // takes a pointer to the existing list, goes through the entire list freeing each node;
@@ -154,51 +149,46 @@ struct song_node * find_random(struct song_node * list) {
 void remove_song(struct song_node * list, struct song_node * one) {
 }
 
-//NEW, to make testing easier? this doesn't work tho, optional
-/**
-struct song_node * construct_song(struct song_node * new_node, char * person, char * song){
-	new_node = (struct song_node *)malloc(sizeof(struct song_node));
-	strcpy(new_node->artist, person);
-	strcpy(new_node->name, song);
-	return new_node;
-} */
-
 int main(){
 	//simple testing
 	struct song_node *songBiggie = (struct song_node *)malloc(sizeof(struct song_node));
 	struct song_node *songTupac = (struct song_node *)malloc(sizeof(struct song_node));
 
-	strcpy(songBiggie->artist, "Biggie");
-	strcpy(songBiggie->name, "Juicy");
-	strcpy(songTupac->artist, "Tupac");
-	strcpy(songTupac->name, "Changes");
+	initialize_song(songBiggie, "Biggie", "Juicy");
+	initialize_song(songTupac, "Tupac", "Changes");
 
-	printf("compare songBiggie to songTupac: %d \n", compare_nodes(songBiggie, songTupac) ); //should return -1, "Biggie" before "Tupac"
+	//printf("compare songBiggie to songTupac: %d \n", compare_nodes(songBiggie, songTupac) ); //should return -1, "Biggie" before "Tupac"
 
-	//i wanna get rid of this ugly piece, we should write construct funtion later maybe
+	//wanna get rid of this chunk later
 	struct song_node *song1 = (struct song_node *)malloc(sizeof(struct song_node));
 	struct song_node *song2 = (struct song_node *)malloc(sizeof(struct song_node));
 	struct song_node *song3 = (struct song_node *)malloc(sizeof(struct song_node));
 	struct song_node *song4 = (struct song_node *)malloc(sizeof(struct song_node));
+	struct song_node *song5 = (struct song_node *)malloc(sizeof(struct song_node));
+	struct song_node *song6 = (struct song_node *)malloc(sizeof(struct song_node));
 
-	strcpy(song1->artist, "A");
-	strcpy(song1->name, "a song");
-	strcpy(song2->artist, "B");
-	strcpy(song2->name, "b song");
+	initialize_song(song1, "A", "a song");
+	initialize_song(song2, "B", "b song");
+	initialize_song(song3, "C", "c song");
+	initialize_song(song4, "D", "d song");
+	initialize_song(song5, "E", "e song");
+	initialize_song(song6, "F", "f song");
 
-	strcpy(song3->artist, "C");
-	strcpy(song3->name, "c song");
-	strcpy(song4->artist, "D");
-	strcpy(song4->name, "d song");
-
-
-	//testing inserting in middle
-	song1->next = song3;// A: a song -> C: c song
-	insert_song(song1, song2->artist, song2->name); //we want A: a song -> B: b song -> C: c song
-	print_list(song1); //works
+	//testing inserting in beginning
+	printf("testing insert in front, should print a -> b -> c -> d \n");
+	song2->next = song3;
+	song3->next = song4; //so far, it's b -> c ->d
+	insert_song(song2, song1);
+	print_list(song1);
 
 	//testing inserting in end
-	insert_song(song4, song4->artist, song4->name); //inserting d song after c song
+	printf("testing insert in end, should print a -> b -> c -> d -> f \n");
+	insert_song(song1, song6);
+	print_list(song1);
+
+	//testing inserting in middle
+	printf("testing insert in middle, should print a -> b -> c -> d -> e -> f \n");
+	insert_song(song1, song5);
 	print_list(song1);
 
 
