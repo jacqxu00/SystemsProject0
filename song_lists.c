@@ -111,9 +111,9 @@ struct song_node * free_list(struct song_node * list) {
 
 // takes a pointer to the existing list and a song title, goes through entire list until song title matches;
 // returns: a pointer to the node whose song title matches parameter
-struct song_node * find_song(struct song_node * list, char * song) {
+struct song_node * find_song(struct song_node * list, char * song, char *person) {
 	while (list){
-		if (strcmp(list->name, song) == 0){
+		if (strcmp(list->name, song) == 0 && strcmp(list->artist, person) == 0){
 			print_list(list); //for testing purposes
 			return list; }
 		else{
@@ -158,16 +158,16 @@ struct song_node * find_random(struct song_node * list) {
 	printf("\nlength of list: %d \n", l);
 
 	srand(time(NULL));
-	int r = ( rand() % l) + 1;
-	printf("\nrandom index: %d \n", r);
+	int r = ( rand() % l);
+	printf("random index: %d \n", r);
 
 	int i = 0;
 
-	//this needs work
 	while(i < r){
 		list = list->next;
 		i++; }
 
+	print_list(list); //for testing purposes
 	return list;
 }
 
@@ -201,66 +201,7 @@ struct song_node * remove_song(struct song_node * list, struct song_node * one) 
 	return copy;
 }
 
-/** ignore, to be explained later
-void set_firstsong(struct song_node * first, struct song_node * list,  struct song_node * insert){
-	while(list){
-		if (compare_nodes(list,insert) < 0){
-			first = list;
-			insert_song(list, insert); }
-		else{
-			if(list->next == NULL){
-				first = insert;
-				insert_song(insert, list); } //linking step
-			else{
-				list = list->next; }
-		}
-	}
-} */
-
-/**
 int main(){
-
-
-	//wanna get rid of this chunk later
-	struct song_node *song1 = (struct song_node *)malloc(sizeof(struct song_node));
-	struct song_node *song2 = (struct song_node *)malloc(sizeof(struct song_node));
-	struct song_node *song3 = (struct song_node *)malloc(sizeof(struct song_node));
-	struct song_node *song4 = (struct song_node *)malloc(sizeof(struct song_node));
-	struct song_node *song5 = (struct song_node *)malloc(sizeof(struct song_node));
-	struct song_node *song6 = (struct song_node *)malloc(sizeof(struct song_node));
-
-	initialize_song(song1, "A", "a song");
-	initialize_song(song2, "B", "b song");
-	initialize_song(song3, "C", "c song");
-	initialize_song(song4, "D", "d song");
-	initialize_song(song5, "E", "e song");
-	initialize_song(song6, "F", "f song");
-
-	//testing inserting in beginning
-	printf("\ntesting insert a in front of b->c->d, should print a -> b -> c -> d \n");
-	song2->next = song3;
-	song3->next = song4; //so far, it's b -> c ->d
-	insert_song(song2, song1);
-	print_list(song1);
-
-	//testing inserting in end
-	printf("\ntesting insert f in end of a->b->c->d, should print a -> b -> c -> d -> f \n");
-	insert_song(song1, song6);
-	print_list(song1);
-
-	//testing inserting in middle
-	printf("\ntesting insert e in middle of a->b->c->d->f, should print a -> b -> c -> d -> e -> f \n");
-	insert_song(song1, song5);
-	print_list(song1);
-
-	//free_list(song1); //this doesn't work
-
-	//testing find random
-	find_random(song1);
-	printf("\n");
-	print_list(song1); //doesnt work
-
-	
 
 	//more thorough testing
 	struct song_node *nas_song1 = (struct song_node *)malloc(sizeof(struct song_node));
@@ -277,27 +218,6 @@ int main(){
 	initialize_song(radiohead_song1, "Radiohead", "No Surprises"); //song 6
 	initialize_song(nirvana_song1, "Nirvana", "Lithium"); //song 5
 
-	order in which we insert songs matter
-	if (compare_nodes(nas_song1, nas_song2) < 0){
-	 	insert_song(nas_song1, nas_song2);
-		first_song = nas_song1; }
-	else{
-		insert_song(nas_song2, nas_song1);
-	 	first_song = nas_song2; } */
-
-	/**
-	if (compare_nodes(first_song, jayz_song1) > 0){
-		insert_song(jayz_song1, first_song);
-		first_song = jayz_song1; }
-	else{
-		insert_song(first_song, jayz_song1); }
-
-	if (compare_nodes(first_song, jayz_song2) > 0){
-		insert_song(jayz_song2, first_song);
-		first_song = jayz_song2; }
-	else{
-		insert_song(first_song, jayz_song2); } 
-
 	//list parameter should be the first song to work
 	insert_song(jayz_song2, jayz_song1);
 	insert_song(jayz_song2, nas_song1);
@@ -305,31 +225,17 @@ int main(){
 	insert_song(jayz_song2, nirvana_song1);
 	insert_song(jayz_song2, radiohead_song1);
 
-	find_song(jayz_song2, "NY State of Mind");
-	find_song(jayz_song2, "Lithium");
+	find_song(jayz_song2, "NY State of Mind", "Nas");
+	find_song(jayz_song2, "Lithium", "Nirvana");
 
 	find_artist(jayz_song2, "Radiohead");
 	find_artist(jayz_song2, "Nas");
-	
-	//FIX must test find_random
-	find_random(jayz_song2);
-	printf("\n");
-	print_list(jayz_song2);
-	
-	//testing remove from middle FIX
-	remove_song(jayz_song2,nas_song2);
-	printf("\n");
-	print_list(jayz_song2);
-	
-	//testing remove from beginning FIX
-	remove_song(jayz_song2,jayz_song2);
-	printf("\n");
-	print_list(jayz_song2);
-	
-	//testing remove from end FIX
-	remove_song(jayz_song2,radiohead_song1);
-	printf("\n");
+
+	//testing remove song
+	remove_song(jayz_song2, nirvana_song1);
 	print_list(jayz_song2);
 
+	//testing random song
+	find_random(jayz_song2);
+
 }
-*/
