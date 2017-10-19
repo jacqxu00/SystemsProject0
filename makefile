@@ -1,12 +1,10 @@
-all: song_lists.c
-  gcc -o song_lists.exe song_lists.c
-
-main.o: song_lists.c
-  gcc song_lists.c
-
-clean:
-  rm *.o
-  rm *~
+all: song_lists.c music_library.c
+	gcc song_lists.c music_library.c
 
 run: all
-  ./song_lists.exe
+	./a.out
+
+clean:
+	rm *.o
+	rm *~
+	rm a.out

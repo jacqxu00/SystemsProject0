@@ -7,7 +7,7 @@ Project 0 My Tunez
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "song_lists.c"
+#include "song_lists.h"
 #include "music_library.h"
 
 // Converts ASCII character into an integer value to use to get index for the playlist array
@@ -34,7 +34,7 @@ struct song_node * search_song(struct song_node * playlist[26], char * song, cha
 	return find_song(playlist[i], song, person);
 }
 
-}
+
 // Search for an artist
 // Returns: a pointer to the first song of the artist
 struct song_node * search_artist(struct song_node * playlist[26], char * person) {
@@ -97,6 +97,7 @@ void delete_all(struct song_node * playlist[26]) {
 	}
 }
 
+/**
 int main() {
 
 	//testing letter_index
@@ -110,8 +111,5 @@ int main() {
 	printf("\nFirst letter testing:\n");
 	printf("hello: %c\n",first_letter(s1));
 	printf("alphabet: %c\n",first_letter(s2));
-
-
-
-
 }
+*/
