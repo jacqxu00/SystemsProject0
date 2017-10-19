@@ -218,10 +218,10 @@ void set_firstsong(struct song_node * first, struct song_node * list,  struct so
 	}
 } */
 
-
+/**
 int main(){
 
-	/**
+
 	//wanna get rid of this chunk later
 	struct song_node *song1 = (struct song_node *)malloc(sizeof(struct song_node));
 	struct song_node *song2 = (struct song_node *)malloc(sizeof(struct song_node));
@@ -261,7 +261,7 @@ int main(){
 	printf("\n");
 	print_list(song1); //doesnt work
 
-	*/
+	
 
 	//more thorough testing
 	struct song_node *nas_song1 = (struct song_node *)malloc(sizeof(struct song_node));
@@ -278,7 +278,7 @@ int main(){
 	initialize_song(radiohead_song1, "Radiohead", "No Surprises"); //song 6
 	initialize_song(nirvana_song1, "Nirvana", "Lithium"); //song 5
 
-	/** order in which we insert songs matter
+	order in which we insert songs matter
 	if (compare_nodes(nas_song1, nas_song2) < 0){
 	 	insert_song(nas_song1, nas_song2);
 		first_song = nas_song1; }
@@ -297,7 +297,7 @@ int main(){
 		insert_song(jayz_song2, first_song);
 		first_song = jayz_song2; }
 	else{
-		insert_song(first_song, jayz_song2); } */
+		insert_song(first_song, jayz_song2); } 
 
 	//list parameter should be the first song to work
 	insert_song(jayz_song2, jayz_song1);
@@ -311,5 +311,26 @@ int main(){
 
 	find_artist(jayz_song2, "Radiohead");
 	find_artist(jayz_song2, "Nas");
+	
+	//FIX must test find_random
+	find_random(jayz_song2);
+	printf("\n");
+	print_list(jayz_song2);
+	
+	//testing remove from middle FIX
+	remove_song(jayz_song2,nas_song2);
+	printf("\n");
+	print_list(jayz_song2);
+	
+	//testing remove from beginning FIX
+	remove_song(jayz_song2,jayz_song2);
+	printf("\n");
+	print_list(jayz_song2);
+	
+	//testing remove from end FIX
+	remove_song(jayz_song2,radiohead_song1);
+	printf("\n");
+	print_list(jayz_song2);
 
 }
+*/
