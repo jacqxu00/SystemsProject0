@@ -15,8 +15,7 @@ Project 0 My Tunez
 void print_list(struct song_node * list) {
 	printf("\n");
 	while (list) {
-		printf(" artist: %s \n ", list->artist);
-		printf(" song: %s \n", list->name);
+		printf("(%s: %s) ", list->artist, list->name);
 		list = list->next;
 	}
 	//printf("NULL\n"); //only for testing purposes

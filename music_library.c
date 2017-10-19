@@ -50,7 +50,14 @@ void print_letter(struct song_node * playlist[26], char letter) {
 
 // Print out all the songs of a certain artist
 void print_artist(struct song_node * playlist[26], char * person) {
-	
+	int i = letter_index(first_letter(person));
+	struct song_node * charlist = playlist[i];
+	while (charlist) {
+		if (strcmp(person,charlist->artist)==0) {
+			printf("(%s: %s) ", charlist->artist, charlist->name);
+		}
+		charlist = charlist->next;
+	}
 }
 
 // Print out the entire library
@@ -97,7 +104,7 @@ int main() {
 	//testing first_letter
 	char s1[12] = "hello";
 	char s2[12] = "alphabet";
-	printf("First letter testing\n");
+	printf("\nFirst letter testing:\n");
 	printf("hello: %c\n",first_letter(s1));
 	printf("alphabet: %c\n",first_letter(s2));
 	
