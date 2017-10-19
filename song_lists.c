@@ -13,15 +13,15 @@ Project 0 My Tunez
 
 // takes: a pointer to a node struct, prints out all of the data in the list
 void print_list(struct song_node * list) {
+	printf("\n");
 	while (list) {
-		printf(" song: %s \n ", list->name);
-		printf(" artist: %s \n", list->artist);
+		printf(" artist: %s \n ", list->artist);
+		printf(" song: %s \n", list->name);
 		list = list->next;
 	}
 	//printf("NULL\n"); //only for testing purposes
 }
 
-//UPDATED PARAMETERS
 // takes a pointer to the existing list and the data to be added, creates a new node and puts it at the beginning of the list;
 // returns: a pointer to the beginning of the list.
 struct song_node * insert_front(struct song_node * list, struct song_node * insert) {
@@ -71,7 +71,6 @@ struct song_node * initialize_song(struct song_node * node, char * person, char 
 	return node;
 }
 
-//UPDATED PARAMETERS
 // takes a pointer to the existing list and the data to be added, creates a new node and alphabetizes it in the list;
 // returns: a pointer to the beginning of the list.
 struct song_node * insert_song(struct song_node * list, struct song_node * insert) {
@@ -92,10 +91,10 @@ struct song_node * insert_song(struct song_node * list, struct song_node * inser
 
 		list = list->next; }
 
-	//case 3: if insert should be the last song in list
-	//if while loop lasted till end, we know insert end must be the case
-	insert_end(list,insert);
-	return copy;
+		//case 3: if insert should be the last song in list
+		//if while loop lasted till end, we know insert end must be the case
+		insert_end(list,insert);
+		return copy;
 }
 
 // takes a pointer to the existing list, goes through the entire list freeing each node;
@@ -114,12 +113,30 @@ struct song_node * free_list(struct song_node * list) {
 // takes a pointer to the existing list and a song title, goes through entire list until song title matches;
 // returns: a pointer to the node whose song title matches parameter
 struct song_node * find_song(struct song_node * list, char * song) {
+	while (list){
+		if (strcmp(list->name, song) == 0){
+			print_list(list); //for testing purposes
+			return list; }
+		else{
+			list = list->next; }
+	}
+
+	printf("\n Song not found :( \n");
 	return NULL;
 }
 
 // takes a pointer to the existing list and an artist name, goes through entire list until artist name matches;
 // returns: a pointer to the first node whose artist name matches parameter
 struct song_node * find_artist(struct song_node * list, char * person) {
+	while (list){
+		if (strcmp(list->artist, person) == 0){
+			print_list(list);
+			return list; }
+		else{
+			list = list->next; }
+	}
+
+	printf("\n Artist not found :( \n");
 	return NULL;
 }
 
@@ -159,22 +176,22 @@ struct song_node * find_random(struct song_node * list) {
 // returns: pointer to the beginning of the edited list
 struct song_node * remove_song(struct song_node * list, struct song_node * one) {
 	struct song_node *copy = list; //so we can return beginning of the list later
-	
+
 	//case 1: if remove first node of list
-	if (compare_nodes(insert,one) == 0){
+	if (compare_nodes(list,one) == 0){
 		copy = list->next;
 	 	list = NULL; //FIX to free
 	}
-	
+
 	else {
 		while (list && list->next != NULL){
 			//case 2: remove from the middle
 			if (compare_nodes(one,list->next) == 0){
 				struct song_node *temp = list->next;
 				list->next = temp->next;
-				temp->next = NULL; //FIX to free 
+				temp->next = NULL; //FIX to free
 			}
-	
+
 			list = list->next;
 		}
 	}
@@ -185,18 +202,26 @@ struct song_node * remove_song(struct song_node * list, struct song_node * one) 
 	return copy;
 }
 
+/** ignore, to be explained later
+void set_firstsong(struct song_node * first, struct song_node * list,  struct song_node * insert){
+	while(list){
+		if (compare_nodes(list,insert) < 0){
+			first = list;
+			insert_song(list, insert); }
+		else{
+			if(list->next == NULL){
+				first = insert;
+				insert_song(insert, list); } //linking step
+			else{
+				list = list->next; }
+		}
+	}
+} */
 
 
 int main(){
-	//simple testing
-	struct song_node *songBiggie = (struct song_node *)malloc(sizeof(struct song_node));
-	struct song_node *songTupac = (struct song_node *)malloc(sizeof(struct song_node));
 
-	initialize_song(songBiggie, "Biggie", "Juicy");
-	initialize_song(songTupac, "Tupac", "Changes");
-
-	//printf("compare songBiggie to songTupac: %d \n", compare_nodes(songBiggie, songTupac) ); //should return -1, "Biggie" before "Tupac"
-
+	/**
 	//wanna get rid of this chunk later
 	struct song_node *song1 = (struct song_node *)malloc(sizeof(struct song_node));
 	struct song_node *song2 = (struct song_node *)malloc(sizeof(struct song_node));
@@ -215,7 +240,7 @@ int main(){
 	//testing inserting in beginning
 	printf("\ntesting insert a in front of b->c->d, should print a -> b -> c -> d \n");
 	song2->next = song3;
-	song3->next = song4; //so far, it's b -> c -> d
+	song3->next = song4; //so far, it's b -> c ->d
 	insert_song(song2, song1);
 	print_list(song1);
 
@@ -225,23 +250,66 @@ int main(){
 	print_list(song1);
 
 	//testing inserting in middle
-	printf("\ntesting insert e in middle of a-> b->c->d->f, should print a -> b -> c -> d -> e -> f \n");
+	printf("\ntesting insert e in middle of a->b->c->d->f, should print a -> b -> c -> d -> e -> f \n");
 	insert_song(song1, song5);
 	print_list(song1);
 
-	//testing remove song from beginning
-	printf("testing insert in middle, should print b -> c -> d -> e -> f \n");
-	remove_song(song1, song1);
-	
-	//testing remove song from end
-	
-	//testing remove song from middle
-	
-	//free_list(song1); //FIX this doesn't work
+	//free_list(song1); //this doesn't work
 
 	//testing find random
 	find_random(song1);
 	printf("\n");
-	print_list(song1);
+	print_list(song1); //doesnt work
+
+	*/
+
+	//more thorough testing
+	struct song_node *nas_song1 = (struct song_node *)malloc(sizeof(struct song_node));
+	struct song_node *nas_song2 = (struct song_node *)malloc(sizeof(struct song_node));
+	struct song_node *jayz_song1 = (struct song_node *)malloc(sizeof(struct song_node));
+	struct song_node *jayz_song2 = (struct song_node *)malloc(sizeof(struct song_node));
+	struct song_node *radiohead_song1 = (struct song_node *)malloc(sizeof(struct song_node));
+	struct song_node *nirvana_song1 = (struct song_node *)malloc(sizeof(struct song_node));
+
+	initialize_song(nas_song1, "Nas", "NY State of Mind");  //song 3
+	initialize_song(nas_song2, "Nas", "The World is Yours"); //song 4
+	initialize_song(jayz_song1, "Jay Z", "Ninety Nine Problems"); //song 2
+	initialize_song(jayz_song2, "Jay Z", "Dirt Off Your Shoulder"); //song 1
+	initialize_song(radiohead_song1, "Radiohead", "No Surprises"); //song 6
+	initialize_song(nirvana_song1, "Nirvana", "Lithium"); //song 5
+
+	/** order in which we insert songs matter
+	if (compare_nodes(nas_song1, nas_song2) < 0){
+	 	insert_song(nas_song1, nas_song2);
+		first_song = nas_song1; }
+	else{
+		insert_song(nas_song2, nas_song1);
+	 	first_song = nas_song2; } */
+
+	/**
+	if (compare_nodes(first_song, jayz_song1) > 0){
+		insert_song(jayz_song1, first_song);
+		first_song = jayz_song1; }
+	else{
+		insert_song(first_song, jayz_song1); }
+
+	if (compare_nodes(first_song, jayz_song2) > 0){
+		insert_song(jayz_song2, first_song);
+		first_song = jayz_song2; }
+	else{
+		insert_song(first_song, jayz_song2); } */
+
+	//list parameter should be the first song to work
+	insert_song(jayz_song2, jayz_song1);
+	insert_song(jayz_song2, nas_song1);
+	insert_song(jayz_song2, nas_song2);
+	insert_song(jayz_song2, nirvana_song1);
+	insert_song(jayz_song2, radiohead_song1);
+
+	find_song(jayz_song2, "NY State of Mind");
+	find_song(jayz_song2, "Lithium");
+
+	find_artist(jayz_song2, "Radiohead");
+	find_artist(jayz_song2, "Nas");
 
 }

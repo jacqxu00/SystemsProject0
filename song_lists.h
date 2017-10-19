@@ -15,4 +15,4 @@ struct song_node * find_artist(struct song_node * list, char * person);
 struct song_node * initialize_song(struct song_node * node, char * person, char * song);
 int length_of(struct song_node * list);
 struct song_node * find_random();
-void remove_song(struct song_node * list, struct song_node * one);
+struct song_node * remove_song(struct song_node * list, struct song_node * one);
