@@ -5,7 +5,6 @@ Project 0 My Tunez
 10/20/2017
 */
 
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,6 +19,12 @@ void print_list(struct song_node * list) {
 		list = list->next;
 	}
 	//printf("NULL\n"); //only for testing purposes
+}
+
+void print_node(struct song_node *list){
+	printf(" artist: %s \n", list->artist);
+	printf(" song: %s \n", list->name);
+	printf("\n");
 }
 
 // takes a pointer to the existing list and the data to be added, creates a new node and puts it at the beginning of the list;
@@ -151,14 +156,13 @@ int length_of(struct song_node * list) {
 	return ans;
 }
 
-//this needs a parameter
 // takes a pointer to the existing list;
 // returns: how a pointer to a random node in the list
 struct song_node * find_random(struct song_node * list) {
-	int l = length_of(list);
-	printf("\nlength of list: %d \n", l);
 
-	srand(time(NULL));
+	int l = length_of(list);
+	//printf("\nlength of list: %d \n", l); //for testing purposes
+
 	int r = ( rand() % l);
 	printf("random index: %d \n", r);
 
@@ -168,7 +172,8 @@ struct song_node * find_random(struct song_node * list) {
 		list = list->next;
 		i++; }
 
-	print_list(list); //for testing purposes
+	//print_list(list); //for testing purposes
+	print_node(list); //for testing purposes
 	return list;
 }
 
@@ -202,6 +207,14 @@ struct song_node * remove_song(struct song_node * list, struct song_node * one) 
 	return copy;
 }
 
+// returns n random elements
+void shuffle_library(struct song_node * list, int n){
+	int i = 0;
+	while (i < n){
+		find_random(list);
+		i ++; }
+}
+
 int main(){
 
 	//more thorough testing
@@ -226,6 +239,11 @@ int main(){
 	insert_song(jayz_song2, nirvana_song1);
 	insert_song(jayz_song2, radiohead_song1);
 
+	//testing print node
+	//print_node(jayz_song2);
+	//print_node(nas_song2);
+
+	/**
 	find_song(jayz_song2, "NY State of Mind", "Nas");
 	find_song(jayz_song2, "Lithium", "Nirvana");
 
@@ -237,6 +255,11 @@ int main(){
 	print_list(jayz_song2);
 
 	//testing random song
-	find_random(jayz_song2);
+	find_random(jayz_song2); */
+
+	//print_random_node(jayz_song2);
+
+
+	shuffle_library(jayz_song2, 5);
 
 }

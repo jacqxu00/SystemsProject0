@@ -6,6 +6,7 @@ struct song_node{
 
 /* declare all functions */
 int compare_nodes(struct song_node * a, struct song_node * b);
+void print_node(struct song_node *list);
 struct song_node * insert_front(struct song_node * list, struct song_node * insert);
 struct song_node * insert_end(struct song_node * list, struct song_node * insert);
 struct song_node * insert_song(struct song_node * list, struct song_node * insert);

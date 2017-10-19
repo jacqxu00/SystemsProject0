@@ -14,7 +14,7 @@ Project 0 My Tunez
 int letter_index(char letter) {
 	int ans = letter - 'a';
 	return ans;
-	// letter 'a' = 0, 'b' = 1, etc 
+	// letter 'a' = 0, 'b' = 1, etc
 }
 
 char first_letter(char * string) {
@@ -31,10 +31,10 @@ void add_song(struct song_node * playlist[26], struct song_node * insert) {
 // Returns: a pointer to the song
 struct song_node * search_song(struct song_node * playlist[26], char * song, char * person) {
 	int i = letter_index(first_letter(person));
-	return find_song(playlist[i], song);
+	return find_song(playlist[i], song, person);
 }
 
-
+}
 // Search for an artist
 // Returns: a pointer to the first song of the artist
 struct song_node * search_artist(struct song_node * playlist[26], char * person) {
@@ -50,7 +50,14 @@ void print_letter(struct song_node * playlist[26], char letter) {
 
 // Print out all the songs of a certain artist
 void print_artist(struct song_node * playlist[26], char * person) {
-	
+	int i = letter_index(first_letter(person));
+	struct song_node * charlist = playlist[i];
+	while (charlist) {
+		if (strcmp(person,charlist->artist)==0) {
+			printf("(%s: %s) ", charlist->artist, charlist->name);
+		}
+		charlist = charlist->next;
+	}
 }
 
 // Print out the entire library
@@ -61,9 +68,12 @@ void print_all(struct song_node * playlist[26]) {
 	}
 }
 
-// Shuffle - print out a series of randomly chosen songs
-void shuffle(struct song_node * playlist[26]) {
-	//QUESTION: do they not repeat
+// Print out a series of randomly chosen songs
+void shuffle(struct song_node * playlist[26], int n) {
+	int i;
+	for (i = 0; i < n; i++){
+		int random_int = rand() % 26;
+		find_random(playlist[random_int]); }
 }
 
 // Delete a song
@@ -72,7 +82,7 @@ void delete_song(struct song_node * playlist[26], char * person, char * song) {
 	struct song_node * new = (struct song_node *) malloc(sizeof(struct song_node));
 	initialize_song(new, person, song);
 	remove_song(playlist[i], new);
-	
+
 }
 
 // Delete all the nodes
@@ -88,19 +98,20 @@ void delete_all(struct song_node * playlist[26]) {
 }
 
 int main() {
-	
+
 	//testing letter_index
 	printf("Index of a: %d\n", letter_index('a'));
 	printf("Index of n: %d\n", letter_index('n'));
 	printf("Index of z: %d\n", letter_index('z'));
-	
+
 	//testing first_letter
 	char s1[12] = "hello";
 	char s2[12] = "alphabet";
-	printf("First letter testing\n");
+	printf("\nFirst letter testing:\n");
 	printf("hello: %c\n",first_letter(s1));
 	printf("alphabet: %c\n",first_letter(s2));
-	
+
+
+
+
 }
-
-
