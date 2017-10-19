@@ -31,7 +31,7 @@ void add_song(struct song_node * playlist[26], struct song_node * insert) {
 // Returns: a pointer to the song
 struct song_node * search_song(struct song_node * playlist[26], char * song, char * person) {
 	int i = letter_index(first_letter(person));
-	return find_song(playlist[i], song);
+	return find_song(playlist[i], song, person);
 }
 
 

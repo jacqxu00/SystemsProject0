@@ -201,6 +201,7 @@ struct song_node * remove_song(struct song_node * list, struct song_node * one) 
 	return copy;
 }
 
+/**
 int main(){
 
 	//more thorough testing
@@ -238,4 +239,4 @@ int main(){
 	//testing random song
 	find_random(jayz_song2);
 
-}
+}*/
