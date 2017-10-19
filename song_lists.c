@@ -213,7 +213,7 @@ void shuffle_library(struct song_node * list, int n){
 		find_random(list);
 		i ++; }
 }
-
+/**
 int main(){
 
 	//more thorough testing
@@ -242,7 +242,6 @@ int main(){
 	//print_node(jayz_song2);
 	//print_node(nas_song2);
 
-	/**
 	find_song(jayz_song2, "NY State of Mind", "Nas");
 	find_song(jayz_song2, "Lithium", "Nirvana");
 
@@ -254,7 +253,7 @@ int main(){
 	print_list(jayz_song2);
 
 	//testing random song
-	find_random(jayz_song2); */
+	find_random(jayz_song2);
 
 	//print_random_node(jayz_song2);
 
@@ -262,3 +261,4 @@ int main(){
 	shuffle_library(jayz_song2, 5);
 
 }
+*/

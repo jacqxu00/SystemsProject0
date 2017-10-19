@@ -7,6 +7,7 @@ Project 0 My Tunez
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "song_lists.h"
 #include "music_library.h"
 
@@ -97,7 +98,7 @@ void delete_all(struct song_node * playlist[26]) {
 	}
 }
 
-/**
+
 int main() {
 
 	//testing letter_index
@@ -112,4 +113,4 @@ int main() {
 	printf("hello: %c\n",first_letter(s1));
 	printf("alphabet: %c\n",first_letter(s2));
 }
-*/
+
