@@ -33,8 +33,8 @@ void print_node(struct song_node *list, char *person, char *song){
 // returns: a pointer to the song_node
 struct song_node * initialize_song(char * person, char * song){
 	struct song_node *insert = (struct song_node *)malloc(sizeof(struct song_node));
-	strcpy(insert->artist, person);
-	strcpy(insert->name, song);
+	strncpy(insert->artist, person, sizeof(insert->artist));
+	strncpy(insert->name, song, sizeof(insert->name));
 	insert->next = NULL;
 	return insert;
 }
@@ -242,6 +242,7 @@ struct song_node * remove_song(struct song_node * list, char * person, char *nam
 	return copy;
 }
 
+/**
 int main(){
 
 	//more thorough testing
@@ -285,4 +286,4 @@ int main(){
 
 	//testing free list
 	free_list(list);
-}
+} */

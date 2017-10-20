@@ -5,17 +5,25 @@ Project 0 My Tunez
 10/20/2017
 */
 
+#include "song_lists.h"
+#include "music_library.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "song_lists.h"
-#include "music_library.h"
+
+
+void initialize_playlist(){
+	int i = 0;
+	while (i < 26){
+		playlist[i] = NULL;
+		i ++; }
+}
 
 // Converts ASCII character into an integer value to use to get index for the playlist array
 int letter_index(char letter) {
-	int ans = letter - 'a';
+	int ans = letter - 65;
 	return ans;
-	// letter 'a' = 0, 'b' = 1, etc
+	// letter 'A' = 0, 'B' = 1, etc
 }
 
 char first_letter(char * string) {
@@ -23,18 +31,33 @@ char first_letter(char * string) {
 }
 
 // Adds song nodes
-void add_song(struct song_node * playlist[26], struct song_node * insert) {
-	int i = letter_index(first_letter(insert->artist));
-	insert_song(playlist[i],insert);
+void add_song(char *person, char *song) {
+
+	int i = letter_index(first_letter(person));
+	if (playlist[i] == NULL){
+		playlist[i] = initialize_song(person,song); }
+	else{
+		playlist[i] = insert_song(playlist[i], person, song); }
 }
 
+// Print out the entire library
+void print_all() {
+	int i;
+	for (i = 0; i < 26; i++) {
+		if (playlist[i]){
+			printf("%c table: ", 'A' + i);
+			print_list(playlist[i]);
+		  printf("\n\n"); }
+		}
+}
+
+/**
 // Searches for a song given song and artist name
 // Returns: a pointer to the song
 struct song_node * search_song(struct song_node * playlist[26], char * song, char * person) {
 	int i = letter_index(first_letter(person));
-	return find_song(playlist[i], song, person);
+	return find_node(playlist[i], song, person);
 }
-
 
 // Search for an artist
 // Returns: a pointer to the first song of the artist
@@ -61,13 +84,7 @@ void print_artist(struct song_node * playlist[26], char * person) {
 	}
 }
 
-// Print out the entire library
-void print_all(struct song_node * playlist[26]) {
-	int i;
-	for (i = 0; i < 26; i++) {
-		print_list(playlist[i]);
-	}
-}
+
 
 // Print out a series of randomly chosen songs
 void shuffle(struct song_node * playlist[26], int n) {
@@ -96,21 +113,33 @@ void delete_all(struct song_node * playlist[26]) {
 			current = temp;
 		}
 	}
-}
-
+} */
 
 int main() {
 
+	/**
 	//testing letter_index
-	printf("Index of a: %d\n", letter_index('a'));
-	printf("Index of n: %d\n", letter_index('n'));
-	printf("Index of z: %d\n", letter_index('z'));
+	printf("Index of A: %d\n", letter_index('A'));
+	printf("Index of N: %d\n", letter_index('N'));
+	printf("Index of Z: %d\n", letter_index('Z'));
 
 	//testing first_letter
-	char s1[12] = "hello";
-	char s2[12] = "alphabet";
+	char s1[12] = "Hello";
+	char s2[12] = "Alphabet";
 	printf("\nFirst letter testing:\n");
 	printf("hello: %c\n",first_letter(s1));
-	printf("alphabet: %c\n",first_letter(s2));
-}
+	printf("alphabet: %c\n",first_letter(s2)); */
 
+	//testing print_library
+	initialize_playlist();
+	add_song("Biggie", "Juicy");
+	add_song("Tupac", "Changes");
+	print_all();
+
+	/**
+	add_song(nas_song1);
+	add_song(nas_song2);
+	add_song(nirvana_song1);
+	add_song(radiohead_song1); */
+	//print_all(playlist);
+}
