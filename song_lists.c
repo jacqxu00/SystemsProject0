@@ -14,8 +14,9 @@ Project 0 My Tunez
 // takes: a pointer to a node struct, prints out all of the data in the list
 void print_list(struct song_node * list) {
 	//printf("\nTesting print_list: \n");
+	printf("\n");
 	while (list) {
-		printf("\n(%s: %s) ", list->artist, list->name);
+		printf("(%s: %s) ", list->artist, list->name);
 		list = list->next;
 	}
 	//printf("NULL\n"); //only for testing purposes
@@ -123,11 +124,10 @@ struct song_node * insert_song(struct song_node * list, char * person, char * na
 // takes a pointer to the existing list, goes through the entire list freeing each node;
 // returns: a pointer to the beginning of the list (which should be NULL by then).
 struct song_node * free_list(struct song_node * list) {
-	struct song_node *temp = (struct song_node *)malloc(sizeof(struct song_node));
 	while (list) {
 		printf("\nFreeing node: (%s", list->artist);
 		printf(": %s )\n", list->name);
-		temp = list;
+		struct song_node *temp = list;
 		list = list->next;
 		free(temp);
 	}
@@ -136,7 +136,7 @@ struct song_node * free_list(struct song_node * list) {
 	printf("list after free_list: "); //should be empty
 	print_list(list);
 	printf("\n");
-	return NULL;
+	return list;
 }
 
 // takes a pointer to the existing list and a song title, goes through entire list until song title matches;
@@ -147,7 +147,7 @@ struct song_node * find_node(struct song_node * list, char * person, char *song)
 	while (list){
 		if (strcmp(list->name, song) == 0 && strcmp(list->artist, person) == 0){
 			printf("Node found! ");
-			print_list(list); //for testing purposes
+			//print_list(list); //for testing purposes
 			printf("\n");
 			return list; }
 		else{
@@ -196,7 +196,7 @@ struct song_node * find_random(struct song_node * list) {
 	//printf("\nlength of list: %d \n", l); //for testing purposes
 
 	int r = ( rand() % l);
-	printf("\nrandom index: %d \n", r);
+	printf("\nrandom index: %d", r);
 
 	int i = 0;
 	while(i < r){
