@@ -1,4 +1,5 @@
 struct song_node *playlist[26];
+void initialize_playlist();
 int letter_index(char letter);
 char first_letter(char * string);
 void add_song(char *person, char *song);
